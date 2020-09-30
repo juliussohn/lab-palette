@@ -6,8 +6,8 @@ const getSwatch = () => {
 	return {
 		hue: {
 			base: hue,
-			dark: -40,
-			light: 100,
+			dark: -0,
+			light: 0,
 		},
 		chroma: {
 			base: 100,
@@ -21,7 +21,11 @@ const defaultState = {
 	options: {
 		steps: 5,
 		lightness: [20, 70, 100],
-		chroma: defaultChroma,
+		chroma: {
+			base: 100,
+			dark: 10,
+			light: -10,
+		},
 		globalChroma: true,
 		showImaginary: true,
 	},

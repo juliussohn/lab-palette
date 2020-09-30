@@ -41,8 +41,8 @@ function App({
 					onChange={(event) => setSteps(event.target.value)}
 				/>
 				<br />
-
-				<ColorSlider
+				<label>Lightness</label>
+				<Range
 					label={"Lightness"}
 					hue={[270, 270]}
 					chroma={[0, 0]}

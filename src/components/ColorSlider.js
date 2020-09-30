@@ -56,6 +56,7 @@ function ColorSlider(props) {
 
 			<Slider
 				{...props}
+				value={props.value.base}
 				railStyle={{
 					backgroundImage: getHueGradient(
 						props.lightness,
@@ -63,36 +64,70 @@ function ColorSlider(props) {
 						props.hue
 					),
 					height: height,
-					boxShadow: `0 1px 5px rgba(0,0,0,0.2) inset`,
+					boxShadow: `0 1px 5px "rgba"(0,0,0,0.2) inset`,
 					borderRadius: 2,
 				}}
 				trackStyle={[
 					{
 						backgroundColor: "transparent",
-						height: height + 6,
+						/*height: height + 6,
 						marginTop: -3,
 						border: `3px solid`,
-						borderRadius: 3,
+						borderRadius: 3,*/
 					},
 				]}
+				handleStyle={{
+					height: height + 6,
+					marginTop: -4,
+					borderRadius: 2,
+					boxShadow: `0 1px 5px rgba(0,0,0,0.2) `,
+
+					border: `4px solid`,
+					background: `transparent`,
+				}}
+				dotStyle={{
+					height: height,
+					top: 0,
+					borderRadius: 2,
+					border: `none`,
+					background: `rgba(0,0,0,.4)`,
+					width: 2,
+				}}
 				pushable={true}
 				allowCross={false}
+				onChange={(value) => props.onChange({ ...props.value, base: value })}
 			/>
 			<Inputs>
-				{props.value.map((val, i) => (
-					<Input
-						step="10"
-						type="number"
-						id="hue"
-						name="hue"
-						value={val}
-						onChange={(event) =>
-							props.onChange(
-								Object.assign([], props.value, { [i]: event.target.value })
-							)
-						}
-					/>
-				))}
+				<Input
+					step="10"
+					type="number"
+					id="hue"
+					name="hue"
+					value={props.value.dark}
+					onChange={(event) =>
+						props.onChange({ ...props.value, dark: event.target.value })
+					}
+				/>
+				<Input
+					step="10"
+					type="number"
+					id="hue"
+					name="hue"
+					value={props.value.base}
+					onChange={(event) =>
+						props.onChange({ ...props.value, base: event.target.value })
+					}
+				/>
+				<Input
+					step="10"
+					type="number"
+					id="hue"
+					name="hue"
+					value={props.value.light}
+					onChange={(event) =>
+						props.onChange({ ...props.value, light: event.target.value })
+					}
+				/>
 			</Inputs>
 		</Container>
 	);

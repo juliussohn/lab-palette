@@ -93,16 +93,6 @@ const getHueGradient = (min = 0, max = 360) => {
 */
 };
 function Swatch({ state: { options }, hue, chroma, onChange, key }) {
-	const difference =
-		(options.lightness.max - options.lightness.min) / (options.steps - 1);
-	const swatch = [];
-	for (var i = 0; i < options.steps; i++) {
-		swatch.push({
-			l: parseFloat(options.lightness.min) + difference * i,
-			c: chroma,
-			h: hue,
-		});
-	}
 	let scaleFunction;
 
 	switch ("sqrt") {
@@ -129,9 +119,23 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 		.domain(domain)
 		.range(options.lightness);
 
-	const hueScale = scaleFunction().domain(domain).range(hue);
+	const hueDark = parseFloat(hue.base) + parseFloat(hue.dark);
+	const hueBase = parseFloat(hue.base);
+	const hueLight = parseFloat(hue.base) + parseFloat(hue.light);
 
-	const chromaScale = scaleFunction().domain(domain).range(chroma);
+	console.log([hue.base + hue.dark, hue.base, hue.base + hue.light]);
+	const hueScale = scaleFunction()
+		.domain(domain)
+		.range([hueDark, hueBase, hueLight]);
+
+	const chromaDark = parseFloat(chroma.base) + parseFloat(chroma.dark);
+	const chromaBase = parseFloat(chroma.base);
+	const chromaLight = parseFloat(chroma.base) + parseFloat(chroma.light);
+
+	const chromaScale = scaleFunction()
+		.domain(domain)
+		.range([chromaDark, chromaBase, chromaLight]);
+
 	console.log(getHueGradient());
 
 	let colors = [];
@@ -155,6 +159,19 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 		);
 	}
 
+	const Marker = styled.div`
+		height: 16px;
+		width: 16px;
+		padding: 3px;
+		border: 1px solid black;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-left: -4px;
+		margin-top: 4px;
+		border-radius: 100%;
+	`;
+
 	return (
 		<Container key={"container"}>
 			<Options key={"options"}>
@@ -168,6 +185,10 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 					max={720}
 					value={hue}
 					onChange={(value) => onChange({ hue: value })}
+					marks={{
+						[hueDark]: <Marker>D</Marker>,
+						[hueLight]: <Marker>L</Marker>,
+					}}
 				/>
 
 				<ColorSlider
@@ -181,6 +202,10 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 					max={150}
 					value={chroma}
 					onChange={(value) => onChange({ chroma: value })}
+					marks={{
+						[chromaDark]: <Marker>D</Marker>,
+						[chromaLight]: <Marker>L</Marker>,
+					}}
 				/>
 			</Options>
 			<ColorRow>{colors}</ColorRow>
