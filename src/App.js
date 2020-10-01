@@ -121,7 +121,7 @@ function App({
 					onDelete={() => deleteSwatch(i)}
 					onMoveUp={() => moveSwatch(i, i > 1 ? i - 1 : 0)}
 					onMoveDown={() =>
-						moveSwatch(i, i < swatches.length ? i + 1 : swatches.length - 1)
+						moveSwatch(i, i < swatches.length - 1 ? i + 1 : swatches.length - 1)
 					}
 					hue={swatch.hue}
 					chroma={swatch.chroma}
