@@ -31,15 +31,16 @@ const Tile = styled.div`
 	${(props) =>
 		props.base &&
 		css`
-			margin: 0 px;
+			margin: 0 4px;
 		`}
 	${(props) => props.clipped && props.showImaginary && imaginaryOverlay}
 `;
 
-function ColorTile({ color, showImaginary, showContrast }) {
+function ColorTile({ color, base, showImaginary, showContrast }) {
 	const contrastColors = [chromajs("black"), chromajs("white")];
 	return (
 		<Tile
+			base={base}
 			showImaginary={showImaginary}
 			clipped={color.clipped()}
 			background={color.hex()}
