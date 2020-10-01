@@ -25,6 +25,7 @@ const defaultState = {
 		globalLightness: true,
 		showImaginary: false,
 		mirrorValues: true,
+		showContrast: true,
 	},
 	swatches: [],
 };
@@ -120,6 +121,13 @@ function reducers(state = defaultState, action) {
 			return update(state, {
 				options: {
 					showImaginary: { $set: action.imaginary },
+				},
+			});
+
+		case "SET_SHOW_CONTRAST":
+			return update(state, {
+				options: {
+					showContrast: { $set: action.showContrast },
 				},
 			});
 

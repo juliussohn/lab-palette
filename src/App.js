@@ -21,6 +21,7 @@ import {
 	setGlobalLightness,
 	deleteSwatch,
 	moveSwatch,
+	setShowContrast,
 } from "./actions/actions.js";
 import { bindActionCreators } from "redux";
 
@@ -40,6 +41,7 @@ function App({
 	setMirrorValues,
 	deleteSwatch,
 	moveSwatch,
+	setShowContrast,
 }) {
 	useEffect(() => {
 		addSwatch();
@@ -110,6 +112,11 @@ function App({
 						value={options.showImaginary}
 						onChange={setImaginary}
 					/>
+					<Toggle
+						label={"Show Contrast"}
+						value={options.showContrast}
+						onChange={setShowContrast}
+					/>
 				</Options>
 			</Settings>
 
@@ -154,6 +161,7 @@ const mapDispatchToProps = (dispatch) => {
 			setGlobalLightness,
 			deleteSwatch,
 			moveSwatch,
+			setShowContrast,
 		},
 		dispatch
 	);

@@ -28,6 +28,11 @@ export const setImaginary = (imaginary) => ({
 	imaginary,
 });
 
+export const setShowContrast = (showContrast) => ({
+	type: "SET_SHOW_CONTRAST",
+	showContrast,
+});
+
 export const setGlobalChroma = (globalChroma) => ({
 	type: "SET_GLOBAL_CHROMA",
 	globalChroma,

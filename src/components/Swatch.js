@@ -5,6 +5,7 @@ import ColorSlider from "./ColorSlider2";
 import ranges from "../ranges";
 import { clamp } from "../helpers.js";
 import { Options } from "./containers.js";
+import ColorTile from "./ColorTile.js";
 
 import {
 	scaleLinear,
@@ -34,30 +35,6 @@ const Actions = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-`;
-
-const ColorBox = styled.div`
-	flex: 1;
-	padding: 5px;
-	color: rgba(0, 0, 0, 0.3);
-	${(props) =>
-		props.base &&
-		css`
-			margin: 0 px;
-		`}
-	${(props) =>
-		props.color.clipped() &&
-		props.imaginary &&
-		css`
-			background: repeating-linear-gradient(
-				45deg,
-				rgba(0, 0, 0, 0),
-				rgba(0, 0, 0, 0) 5px,
-				rgba(0, 0, 0, 0.05) 5px,
-				rgba(0, 0, 0, 0.05) 10px
-			);
-		`}
-  background-color: ${(props) => props.color.hex() || "black"};
 `;
 
 const ColorRow = styled.div`
@@ -131,21 +108,22 @@ function Swatch({
 	let colors = [];
 	for (let i = -1 * options.steps; i <= options.steps; i++) {
 		colors.push(
-			<ColorBox
+			<ColorTile
 				base={i === 0}
 				color={chromajs.lch(
 					Math.round(lightnessScale(i)),
 					Math.round(chromaScale(i)),
 					Math.round(hueScale(i))
 				)}
-				imaginary={options.showImaginary}
+				showImaginary={options.showImaginary}
+				showContrast={options.showContrast}
 			>
 				L: {Math.round(lightnessScale(i))}
 				<br />
 				C: {Math.round(chromaScale(i))}
 				<br />
 				H: {Math.round(hueScale(i))}
-			</ColorBox>
+			</ColorTile>
 		);
 	}
 
@@ -164,11 +142,6 @@ function Swatch({
 
 	return (
 		<Container key={"container"}>
-			<Actions>
-				<button onClick={onDelete}>×</button>
-				<button onClick={onMoveUp}>↑</button>
-				<button onClick={onMoveDown}>↓</button>
-			</Actions>
 			<Options key={"options"}>
 				{!options.globalLightness && (
 					<ColorSlider
@@ -219,6 +192,11 @@ function Swatch({
 					/>
 				)}
 			</Options>
+			<Actions>
+				<button onClick={onDelete}>×</button>
+				<button onClick={onMoveUp}>↑</button>
+				<button onClick={onMoveDown}>↓</button>
+			</Actions>
 			<ColorRow>{colors}</ColorRow>
 		</Container>
 	);
