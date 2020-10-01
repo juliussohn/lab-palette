@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Slider, { Range } from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -19,6 +19,8 @@ import {
 	setImaginary,
 	setMirrorValues,
 	setGlobalLightness,
+	deleteSwatch,
+	moveSwatch,
 } from "./actions/actions.js";
 import { bindActionCreators } from "redux";
 
@@ -36,8 +38,15 @@ function App({
 	setGlobalChroma,
 	setGlobalLightness,
 	setMirrorValues,
+	deleteSwatch,
+	moveSwatch,
 }) {
-	console.log(swatches);
+	useEffect(() => {
+		addSwatch();
+		addSwatch();
+		addSwatch();
+		addSwatch();
+	}, []);
 	return (
 		<div className="App">
 			<Settings>
@@ -109,12 +118,19 @@ function App({
 				<Swatch
 					key={`swatch_${i}`}
 					onChange={(swatch) => updateSwatch(i, swatch)}
+					onDelete={() => deleteSwatch(i)}
+					onMoveUp={() => moveSwatch(i, i > 1 ? i - 1 : 0)}
+					onMoveDown={() =>
+						moveSwatch(i, i < swatches.length ? i + 1 : swatches.length - 1)
+					}
 					hue={swatch.hue}
 					chroma={swatch.chroma}
 					lightness={swatch.lightness}
 				/>
 			))}
-			<button onClick={addSwatch}>Add</button>
+			<div style={{ padding: 15 }}>
+				<button onClick={addSwatch}>Add Swatch</button>
+			</div>
 		</div>
 	);
 }
@@ -136,6 +152,8 @@ const mapDispatchToProps = (dispatch) => {
 			setGlobalChroma,
 			setMirrorValues,
 			setGlobalLightness,
+			deleteSwatch,
+			moveSwatch,
 		},
 		dispatch
 	);

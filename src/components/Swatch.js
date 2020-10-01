@@ -24,6 +24,16 @@ import { connect } from "react-redux";
 const Container = styled.div`
 	display: flex;
 	width: 100%;
+	padding: 0 15px;
+	&:nth-child(even) {
+		background-color: rgba(0, 0, 0, 0.07);
+	}
+`;
+
+const Actions = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 `;
 
 const ColorBox = styled.div`
@@ -55,27 +65,16 @@ const ColorRow = styled.div`
 	flex: 1;
 `;
 
-function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
-	let scaleFunction;
-
-	switch ("sqrt") {
-		case "linear":
-			scaleFunction = scaleLinear;
-			break;
-		case "sqrt":
-			scaleFunction = scaleSqrt;
-			break;
-		case "pow2":
-			scaleFunction = () => scalePow().exponent(2);
-			break;
-		case "pow3":
-			scaleFunction = () => scalePow().exponent(3);
-			break;
-		default:
-			scaleFunction = scaleLinear;
-			break;
-	}
-
+function Swatch({
+	state: { options },
+	lightness,
+	hue,
+	chroma,
+	onChange,
+	onDelete,
+	onMoveUp,
+	onMoveDown,
+}) {
 	const domain = [-1 * options.steps, 0, options.steps];
 
 	const lightnessBase = parseFloat(lightness.base);
@@ -165,6 +164,11 @@ function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
 
 	return (
 		<Container key={"container"}>
+			<Actions>
+				<button onClick={onDelete}>×</button>
+				<button onClick={onMoveUp}>↑</button>
+				<button onClick={onMoveDown}>↓</button>
+			</Actions>
 			<Options key={"options"}>
 				{!options.globalLightness && (
 					<ColorSlider

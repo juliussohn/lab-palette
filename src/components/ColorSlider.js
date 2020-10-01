@@ -4,7 +4,7 @@ import Slider, { Range } from "rc-slider";
 import styled from "styled-components";
 
 const Container = styled.div`
-	margin-top: 15px;
+	margin: 10px 0;
 `;
 const Inputs = styled.div`
 	display: flex;

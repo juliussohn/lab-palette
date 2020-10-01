@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import chromajs from "chroma-js";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { scaleLinear } from "d3-scale";
 import { clamp } from "../helpers.js";
 import { connect } from "react-redux";
@@ -8,7 +8,7 @@ import { Input } from "./containers.js";
 import ScaleSelect from "./ScaleSelect.js";
 
 const Container = styled.div`
-	margin-top: 15px;
+	margin: 10px 0;
 `;
 const Header = styled.div`
 	display: flex;
@@ -76,18 +76,24 @@ const ShadeHandle = styled.div`
 	top: 2px;
 	border-radius: 100%;
 	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-	border: 2px solid;
+	border: 1px solid;
 	background: transparent;
 	position: absolute;
 	margin-left: -${handleWidth / 2}px;
 	cursor: pointer;
 
-	background: ${(props) =>
+	${(props) =>
 		props.shade == "dark"
-			? "black"
+			? css`
+					background-color: black;
+					border-color: white;
+			  `
 			: props.shade == "light"
-			? "white"
-			: "transparent"};
+			? css`
+					background-color: white;
+					border-color: black;
+			  `
+			: ``}
 `;
 
 function ColorSlider({
@@ -192,7 +198,7 @@ function ColorSlider({
 				<ScaleSelect
 					onChange={(v) => onChange({ ...value, scale: v })}
 					value={value.scale}
-				></ScaleSelect>
+				></ScaleSelect>{" "}
 			</Header>
 			<Rail ref={railRef} style={{ background: gradient }}>
 				{value.base && (

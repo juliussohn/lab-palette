@@ -42,3 +42,14 @@ export const setMirrorValues = (mirrorValues) => ({
 	type: "SET_MIRROR_VALUES",
 	mirrorValues,
 });
+
+export const deleteSwatch = (index) => ({
+	type: "DELETE_SWATCH",
+	index,
+});
+
+export const moveSwatch = (currentIndex, newIndex) => ({
+	type: "MOVE_SWATCH",
+	currentIndex,
+	newIndex,
+});

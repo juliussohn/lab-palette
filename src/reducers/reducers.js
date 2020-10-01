@@ -1,4 +1,5 @@
 import update from "react-addons-update";
+import { bindActionCreators } from "redux";
 
 const defaultChroma = { base: 70, dark: 10, light: -10, scale: "linear" };
 const defaultlightness = { base: 70, dark: -40, light: 40, scale: "linear" };
@@ -25,14 +26,16 @@ const defaultState = {
 		showImaginary: false,
 		mirrorValues: true,
 	},
-	swatches: [getSwatch()],
+	swatches: [],
 };
 
 function reducers(state = defaultState, action) {
 	console.log(action.chroma);
 	switch (action.type) {
 		case "ADD_SWATCH":
-			let hue = state.swatches[state.swatches.length - 1].hue.base + 40;
+			let hue = state.swatches.length
+				? state.swatches[state.swatches.length - 1].hue.base + 40
+				: Math.round(Math.random() * 360);
 			hue = hue > 720 ? hue - 720 : hue;
 			return update(state, {
 				swatches: {
@@ -43,6 +46,25 @@ function reducers(state = defaultState, action) {
 							lightness: state.options.lightness,
 						},
 					],
+				},
+			});
+
+		case "DELETE_SWATCH":
+			return update(state, {
+				swatches: { $splice: [[action.index, 1]] },
+			});
+
+		case "MOVE_SWATCH":
+			return update(state, {
+				swatches: {
+					$apply: (swatches) =>
+						swatches.map((element, index) =>
+							index === action.currentIndex
+								? swatches[action.newIndex]
+								: index === action.newIndex
+								? swatches[action.currentIndex]
+								: element
+						),
 				},
 			});
 
