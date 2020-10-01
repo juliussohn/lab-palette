@@ -47,6 +47,7 @@ const getHueGradient = (lightness, chroma, hue) => {
 
 	return `linear-gradient(90deg, ${gradientSteps.join(`,`)})`;
 };
+
 function ColorSlider(props) {
 	const height = 15;
 

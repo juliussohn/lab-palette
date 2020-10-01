@@ -1,7 +1,10 @@
 import React from "react";
 import chromajs from "chroma-js";
 import Slider, { Range } from "rc-slider";
-import ColorSlider from "./ColorSlider";
+import ColorSlider from "./ColorSlider2";
+import ranges from "../ranges";
+import { clamp } from "../helpers.js";
+import { Options } from "./containers.js";
 
 import {
 	scaleLinear,
@@ -22,10 +25,6 @@ const Container = styled.div`
 	display: flex;
 	width: 100%;
 `;
-
-const linear = (step, a, b) => {
-	return a + b * step;
-};
 
 const ColorBox = styled.div`
 	flex: 1;
@@ -51,48 +50,12 @@ const ColorBox = styled.div`
   background-color: ${(props) => props.color.hex() || "black"};
 `;
 
-const Options = styled.div`
-	width: 400px;
-	padding: 0 10px;
-`;
-
 const ColorRow = styled.div`
 	display: flex;
 	flex: 1;
 `;
 
-const getHueGradient = (min = 0, max = 360) => {
-	const getSteps = (count = 6) => {
-		let steps = [];
-		for (var i = 0; i < count; i++) {
-			steps.push(chromajs.lch(70, 90, (360 / count) * i));
-		}
-		return steps;
-	};
-
-	const stepCount = 6;
-
-	const scale = chromajs
-		.scale(getSteps(stepCount))
-		.domain([0, 360])
-		.mode("lch");
-	let steps = scale.classes(stepCount).colors(stepCount);
-
-	const gradientSteps = steps.map(
-		(step, i) => `${step} ${(100 / stepCount) * i}%`
-	);
-
-	return `linear-gradient(90deg, ${gradientSteps.join(`,`)})`;
-	/*
-
-  let gradientSteps = [];
-  const hueSteps = to - from;
-  for (let i = from; i < to - from; i += skip) {
-    gradientSteps.push(`hsl(${i},100%,${lightness}%) ${(100 / hueSteps) * i}%`);
-  }
-*/
-};
-function Swatch({ state: { options }, hue, chroma, onChange, key }) {
+function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
 	let scaleFunction;
 
 	switch ("sqrt") {
@@ -114,29 +77,55 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 	}
 
 	const domain = [-1 * options.steps, 0, options.steps];
+
+	const lightnessBase = parseFloat(lightness.base);
+	const lightnessDark = clamp(
+		lightnessBase + parseFloat(lightness.dark),
+		ranges.lightness[0],
+		ranges.lightness[1]
+	);
+	const lightnessLight = clamp(
+		lightnessBase + parseFloat(lightness.light),
+		ranges.lightness[0],
+		ranges.lightness[1]
+	);
+
 	const lightnessScale = scalePow()
 		.exponent(2)
 		.domain(domain)
-		.range(options.lightness);
+		.range([lightnessDark, lightnessBase, lightnessLight]);
 
-	const hueDark = parseFloat(hue.base) + parseFloat(hue.dark);
 	const hueBase = parseFloat(hue.base);
-	const hueLight = parseFloat(hue.base) + parseFloat(hue.light);
+	const hueDark = clamp(
+		hueBase + parseFloat(hue.dark),
+		ranges.hue[0],
+		ranges.hue[1]
+	);
+	const hueLight = clamp(
+		hueBase + parseFloat(hue.light),
+		ranges.hue[0],
+		ranges.hue[1]
+	);
 
-	console.log([hue.base + hue.dark, hue.base, hue.base + hue.light]);
 	const hueScale = scaleFunction()
 		.domain(domain)
 		.range([hueDark, hueBase, hueLight]);
 
-	const chromaDark = parseFloat(chroma.base) + parseFloat(chroma.dark);
 	const chromaBase = parseFloat(chroma.base);
-	const chromaLight = parseFloat(chroma.base) + parseFloat(chroma.light);
+	const chromaDark = clamp(
+		chromaBase + parseFloat(chroma.dark),
+		ranges.chroma[0],
+		ranges.chroma[1]
+	);
+	const chromaLight = clamp(
+		chromaBase + parseFloat(chroma.light),
+		ranges.chroma[0],
+		ranges.chroma[1]
+	);
 
 	const chromaScale = scaleFunction()
 		.domain(domain)
 		.range([chromaDark, chromaBase, chromaLight]);
-
-	console.log(getHueGradient());
 
 	let colors = [];
 	for (let i = -1 * options.steps; i <= options.steps; i++) {
@@ -175,14 +164,29 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 	return (
 		<Container key={"container"}>
 			<Options key={"options"}>
+				{!options.globalLightness && (
+					<ColorSlider
+						label="Lightness"
+						background={{
+							hue: [hue.base, hue.base],
+							chroma: [60, 60],
+							lightness: [0, 70],
+						}}
+						min={ranges.lightness[0]}
+						max={ranges.lightness[1]}
+						value={lightness}
+						onChange={(value) => onChange({ lightness: value })}
+					/>
+				)}
 				<ColorSlider
 					label="Hue"
-					count={hue.length}
-					hue={[0, 360]}
-					chroma={[90, 90]}
-					lightness={[70, 70]}
-					min={0}
-					max={720}
+					background={{
+						hue: [0, 360],
+						chroma: [90, 90],
+						lightness: [70, 70],
+					}}
+					min={ranges.hue[0]}
+					max={ranges.hue[1]}
 					value={hue}
 					onChange={(value) => onChange({ hue: value })}
 					marks={{
@@ -190,23 +194,24 @@ function Swatch({ state: { options }, hue, chroma, onChange, key }) {
 						[hueLight]: <Marker>L</Marker>,
 					}}
 				/>
-
-				<ColorSlider
-					label="Chroma"
-					count={chroma.length}
-					allowCross={false}
-					hue={[hue[1], hue[1]]}
-					chroma={[0, 150]}
-					lightness={[70, 70]}
-					min={0}
-					max={150}
-					value={chroma}
-					onChange={(value) => onChange({ chroma: value })}
-					marks={{
-						[chromaDark]: <Marker>D</Marker>,
-						[chromaLight]: <Marker>L</Marker>,
-					}}
-				/>
+				{!options.globalChroma && (
+					<ColorSlider
+						label="Chroma"
+						background={{
+							hue: [hue.base, hue.base],
+							chroma: [0, 150],
+							lightness: [70, 70],
+						}}
+						min={ranges.chroma[0]}
+						max={ranges.chroma[1]}
+						value={chroma}
+						onChange={(value) => onChange({ chroma: value })}
+						marks={{
+							[chromaDark]: <Marker>D</Marker>,
+							[chromaLight]: <Marker>L</Marker>,
+						}}
+					/>
+				)}
 			</Options>
 			<ColorRow>{colors}</ColorRow>
 		</Container>

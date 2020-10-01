@@ -32,3 +32,13 @@ export const setGlobalChroma = (globalChroma) => ({
 	type: "SET_GLOBAL_CHROMA",
 	globalChroma,
 });
+
+export const setGlobalLightness = (globalLightness) => ({
+	type: "SET_GLOBAL_LIGHTNESS",
+	globalLightness,
+});
+
+export const setMirrorValues = (mirrorValues) => ({
+	type: "SET_MIRROR_VALUES",
+	mirrorValues,
+});
