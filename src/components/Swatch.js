@@ -90,8 +90,8 @@ function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
 		ranges.lightness[1]
 	);
 
-	const lightnessScale = scalePow()
-		.exponent(2)
+	const lightnessScale = ranges.scales[lightness.scale]
+		.scale()
 		.domain(domain)
 		.range([lightnessDark, lightnessBase, lightnessLight]);
 
@@ -107,7 +107,8 @@ function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
 		ranges.hue[1]
 	);
 
-	const hueScale = scaleFunction()
+	const hueScale = ranges.scales[hue.scale]
+		.scale()
 		.domain(domain)
 		.range([hueDark, hueBase, hueLight]);
 
@@ -123,7 +124,8 @@ function Swatch({ state: { options }, lightness, hue, chroma, onChange }) {
 		ranges.chroma[1]
 	);
 
-	const chromaScale = scaleFunction()
+	const chromaScale = ranges.scales[chroma.scale]
+		.scale()
 		.domain(domain)
 		.range([chromaDark, chromaBase, chromaLight]);
 

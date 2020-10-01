@@ -44,7 +44,7 @@ function App({
 				<Options>
 					{options.globalLightness && (
 						<ColorSlider
-							label={"Lightness"}
+							label={"Global Lightness"}
 							background={{
 								hue: [270, 270],
 								chroma: [0, 0],
@@ -59,7 +59,7 @@ function App({
 
 					{options.globalChroma && (
 						<ColorSlider
-							label={"Chroma"}
+							label={"Global Chroma"}
 							background={{
 								hue: [40, 40],
 								chroma: [0, 150],

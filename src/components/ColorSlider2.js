@@ -5,14 +5,20 @@ import { scaleLinear } from "d3-scale";
 import { clamp } from "../helpers.js";
 import { connect } from "react-redux";
 import { Input } from "./containers.js";
+import ScaleSelect from "./ScaleSelect.js";
 
 const Container = styled.div`
 	margin-top: 15px;
 `;
+const Header = styled.div`
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 4px;
+`;
 const Inputs = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin-top: 10px;
+	margin-top: 4px;
 `;
 
 const getRailGradient = ({ lightness, chroma, hue }) => {
@@ -181,7 +187,13 @@ function ColorSlider({
 
 	return (
 		<Container>
-			<label>{label}</label>
+			<Header>
+				<label>{label}</label>
+				<ScaleSelect
+					onChange={(v) => onChange({ ...value, scale: v })}
+					value={value.scale}
+				></ScaleSelect>
+			</Header>
 			<Rail ref={railRef} style={{ background: gradient }}>
 				{value.base && (
 					<BaseHandle

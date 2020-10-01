@@ -7,9 +7,10 @@ export const Options = styled.div`
 
 export const Input = styled.input`
 	display: flex;
-	padding: 4px 0;
+	padding: 4px 8px;
 	border: none;
 	outline: none;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-	text-align: center;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	border-radius: 2px;
+	min-width: 60px;
 `;

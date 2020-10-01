@@ -1,15 +1,15 @@
 import React from "react";
 
-function Toggle({ label, value, onChange }) {
+function Toggle({ label, value, onChange, key }) {
 	return (
 		<div>
 			<input
 				type="checkbox"
-				id="imaginary"
+				id={label}
 				checked={value}
 				onChange={(event) => onChange(event.target.checked)}
 			/>
-			<label>{label}</label>
+			<label for={label}>{label}</label>
 		</div>
 	);
 }

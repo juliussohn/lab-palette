@@ -1,40 +1,25 @@
 import update from "react-addons-update";
 
-const defaultChroma = [110, 100, 90];
-const getSwatch = () => {
-	const hue = Math.floor(Math.random() * 360);
+const defaultChroma = { base: 70, dark: 10, light: -10, scale: "linear" };
+const defaultlightness = { base: 70, dark: -40, light: 40, scale: "linear" };
+const getSwatch = (hue = 360) => {
 	return {
 		hue: {
 			base: hue,
 			dark: -0,
 			light: 0,
+			scale: "linear",
 		},
-		chroma: {
-			base: 100,
-			dark: 10,
-			light: -10,
-		},
-		lightness: {
-			base: 70,
-			dark: -20,
-			light: 30,
-		},
+		chroma: defaultChroma,
+		lightness: defaultlightness,
 	};
 };
 
 const defaultState = {
 	options: {
-		steps: 5,
-		lightness: {
-			base: 70,
-			dark: -20,
-			light: 30,
-		},
-		chroma: {
-			base: 100,
-			dark: 10,
-			light: -10,
-		},
+		steps: 4,
+		chroma: defaultChroma,
+		lightness: defaultlightness,
 		globalChroma: true,
 		globalLightness: true,
 		showImaginary: false,
@@ -47,13 +32,15 @@ function reducers(state = defaultState, action) {
 	console.log(action.chroma);
 	switch (action.type) {
 		case "ADD_SWATCH":
+			let hue = state.swatches[state.swatches.length - 1].hue.base + 40;
+			hue = hue > 720 ? hue - 720 : hue;
 			return update(state, {
 				swatches: {
 					$push: [
 						{
-							...getSwatch(),
+							...getSwatch(hue),
 							chroma: state.options.chroma,
-							chroma: state.options.lightness,
+							lightness: state.options.lightness,
 						},
 					],
 				},
