@@ -1,27 +1,12 @@
-import React from "react";
-import chromajs from "chroma-js";
-import Slider, { Range } from "rc-slider";
-import ColorSlider from "./ColorSlider2";
-import ranges from "../ranges";
-import { clamp } from "../helpers.js";
-import { Options } from "./containers.js";
-import ColorTile from "./ColorTile.js";
+import React, { useState, useEffect } from 'react'
+import ColorSlider from './ColorSlider2'
+import ranges from '../ranges'
+import { getSwatchColors } from '../helpers.js'
+import { Options } from './containers.js'
+import ColorTile from './ColorTile.js'
+import styled, { css } from 'styled-components'
+import { connect } from 'react-redux'
 
-import {
-	scaleLinear,
-	scaleTime,
-	scaleSqrt,
-	scalePow,
-	scaleLog,
-	scaleOrdinal,
-	schemeCategory10,
-} from "d3-scale";
-import styled, { css } from "styled-components";
-
-//import { setSteps } from "./actions/actions.js";
-import { bindActionCreators } from "redux";
-
-import { connect } from "react-redux";
 const Container = styled.div`
 	display: flex;
 	width: 100%;
@@ -29,18 +14,29 @@ const Container = styled.div`
 	&:nth-child(even) {
 		background-color: rgba(0, 0, 0, 0.07);
 	}
-`;
+`
 
 const Actions = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-`;
+`
 
 const ColorRow = styled.div`
 	display: flex;
 	flex: 1;
-`;
+`
+
+const GlobalSettings = styled.div`
+	display: flex;
+`
+
+const GlobalToggle = styled.div`
+	padding: 0 3px;
+	color: ${props => (props.active ? `blue` : 'lightgrey')};
+	font-weight: bold;
+	cursor: pointer;
+`
 
 function Swatch({
 	state: { options },
@@ -52,111 +48,25 @@ function Swatch({
 	onMoveUp,
 	onMoveDown,
 }) {
-	const domain = [-1 * options.steps, 0, options.steps];
+	const [colors, setColors] = useState([])
 
-	const lightnessBase = parseFloat(lightness.base);
-	const lightnessDark = clamp(
-		lightnessBase + parseFloat(lightness.dark),
-		ranges.lightness[0],
-		ranges.lightness[1]
-	);
-	const lightnessLight = clamp(
-		lightnessBase + parseFloat(lightness.light),
-		ranges.lightness[0],
-		ranges.lightness[1]
-	);
+	useEffect(() => {
+		console.log(hue, chroma, lightness, options.steps)
+		setColors(getSwatchColors(hue, chroma, lightness, options.steps))
+	}, [hue, chroma, lightness, options.steps])
 
-	const lightnessScale = ranges.scales[lightness.scale]
-		.scale()
-		.domain(domain)
-		.range([lightnessDark, lightnessBase, lightnessLight]);
-
-	const hueBase = parseFloat(hue.base);
-	const hueDark = clamp(
-		hueBase + parseFloat(hue.dark),
-		ranges.hue[0],
-		ranges.hue[1]
-	);
-	const hueLight = clamp(
-		hueBase + parseFloat(hue.light),
-		ranges.hue[0],
-		ranges.hue[1]
-	);
-
-	const hueScale = ranges.scales[hue.scale]
-		.scale()
-		.domain(domain)
-		.range([hueDark, hueBase, hueLight]);
-
-	const chromaBase = parseFloat(chroma.base);
-	const chromaDark = clamp(
-		chromaBase + parseFloat(chroma.dark),
-		ranges.chroma[0],
-		ranges.chroma[1]
-	);
-	const chromaLight = clamp(
-		chromaBase + parseFloat(chroma.light),
-		ranges.chroma[0],
-		ranges.chroma[1]
-	);
-
-	const chromaScale = ranges.scales[chroma.scale]
-		.scale()
-		.domain(domain)
-		.range([chromaDark, chromaBase, chromaLight]);
-
-	let colors = [];
-	for (let i = -1 * options.steps; i <= options.steps; i++) {
-		colors.push(
-			<ColorTile
-				base={i === 0}
-				color={chromajs.lch(
-					Math.round(lightnessScale(i)),
-					Math.round(chromaScale(i)),
-					Math.round(hueScale(i))
-				)}
-				showImaginary={options.showImaginary}
-				showContrast={options.showContrast}
-			>
-				L: {Math.round(lightnessScale(i))}
-				<br />
-				C: {Math.round(chromaScale(i))}
-				<br />
-				H: {Math.round(hueScale(i))}
-			</ColorTile>
-		);
+	const toggleGlobalChroma = () => {
+		const updateChroma = chroma.global ? chroma : options.chroma
+		onChange({ chroma: { ...updateChroma, global: !chroma.global } })
+	}
+	const toggleGlobalLightness = () => {
+		const updateLightness = lightness.global ? lightness : options.lightness
+		onChange({ lightness: { ...updateLightness, global: !lightness.global } })
 	}
 
-	const Marker = styled.div`
-		height: 16px;
-		width: 16px;
-		padding: 3px;
-		border: 1px solid black;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin-left: -4px;
-		margin-top: 4px;
-		border-radius: 100%;
-	`;
-
 	return (
-		<Container key={"container"}>
-			<Options key={"options"}>
-				{!options.globalLightness && (
-					<ColorSlider
-						label="Lightness"
-						background={{
-							hue: [hue.base, hue.base],
-							chroma: [60, 60],
-							lightness: [0, 70],
-						}}
-						min={ranges.lightness[0]}
-						max={ranges.lightness[1]}
-						value={lightness}
-						onChange={(value) => onChange({ lightness: value })}
-					/>
-				)}
+		<Container key={'container'}>
+			<Options key={'options'}>
 				<ColorSlider
 					label="Hue"
 					background={{
@@ -167,49 +77,60 @@ function Swatch({
 					min={ranges.hue[0]}
 					max={ranges.hue[1]}
 					value={hue}
-					onChange={(value) => onChange({ hue: value })}
-					marks={{
-						[hueDark]: <Marker>D</Marker>,
-						[hueLight]: <Marker>L</Marker>,
-					}}
+					onChange={value => onChange({ hue: value })}
 				/>
-				{!options.globalChroma && (
-					<ColorSlider
-						label="Chroma"
-						background={{
-							hue: [hue.base, hue.base],
-							chroma: [0, 150],
-							lightness: [70, 70],
-						}}
-						min={ranges.chroma[0]}
-						max={ranges.chroma[1]}
-						value={chroma}
-						onChange={(value) => onChange({ chroma: value })}
-						marks={{
-							[chromaDark]: <Marker>D</Marker>,
-							[chromaLight]: <Marker>L</Marker>,
-						}}
-					/>
-				)}
+				<ColorSlider
+					toggleGlobal={toggleGlobalChroma}
+					useGlobal={chroma.global}
+					label="Chroma"
+					background={{
+						hue: [hue.base, hue.base],
+						chroma: [0, 150],
+						lightness: [70, 70],
+					}}
+					min={ranges.chroma[0]}
+					max={ranges.chroma[1]}
+					value={chroma}
+					onChange={value => onChange({ chroma: value })}
+				/>
+				<ColorSlider
+					useGlobal={lightness.global}
+					toggleGlobal={toggleGlobalLightness}
+					label="Lightness"
+					background={{
+						hue: [hue.base, hue.base],
+						chroma: [60, 60],
+						lightness: [0, 70],
+					}}
+					min={ranges.lightness[0]}
+					max={ranges.lightness[1]}
+					value={lightness}
+					onChange={value => onChange({ lightness: value })}
+				/>
 			</Options>
 			<Actions>
 				<button onClick={onDelete}>×</button>
 				<button onClick={onMoveUp}>↑</button>
 				<button onClick={onMoveDown}>↓</button>
 			</Actions>
-			<ColorRow>{colors}</ColorRow>
+			<ColorRow>
+				{colors.map((color, i) => (
+					<ColorTile
+						key={i}
+						base={i === parseInt(options.steps)}
+						color={color}
+						showImaginary={options.showImaginary}
+						showContrast={options.showContrast}></ColorTile>
+				))}
+			</ColorRow>
 		</Container>
-	);
+	)
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		...state,
-	};
-};
+	}
+}
 
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({}, dispatch);
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Swatch);
+export default connect(mapStateToProps, null)(Swatch)
