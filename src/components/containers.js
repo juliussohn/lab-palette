@@ -1,9 +1,9 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components'
 
 export const Options = styled.div`
 	width: 400px;
-	padding: 0 10px;
-`;
+	padding: 16px 16px;
+`
 
 export const Input = styled.input`
 	display: flex;
@@ -13,4 +13,4 @@ export const Input = styled.input`
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 2px;
 	min-width: 60px;
-`;
+`

@@ -11,7 +11,10 @@ import Label from './Label.js'
 import { colors } from '../tokens.js'
 
 const Container = styled.div`
-	margin: 10px 0;
+	margin-bottom: 10px;
+	&:last-child {
+		margin-bottom: 0px;
+	}
 `
 const Header = styled.div`
 	display: flex;

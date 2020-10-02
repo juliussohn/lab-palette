@@ -2,24 +2,25 @@ import React, { useState, useEffect } from 'react'
 import ColorSlider from './ColorSlider2'
 import ranges from '../ranges'
 import { getSwatchColors } from '../helpers.js'
-import { Options } from './containers.js'
 import ColorTile from './ColorTile.js'
 import styled, { css } from 'styled-components'
 import { connect } from 'react-redux'
+import { colors } from '../tokens.js'
 
 const Container = styled.div`
 	display: flex;
 	width: 100%;
-	padding: 0 15px;
-	&:nth-child(even) {
-		background-color: rgba(0, 0, 0, 0.07);
-	}
 `
 
 const Actions = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+`
+export const Options = styled.div`
+	width: 400px;
+	padding: 16px 16px;
+	border-bottom: 1px solid ${colors.lightBorder};
 `
 
 const ColorRow = styled.div`
@@ -108,11 +109,11 @@ function Swatch({
 					onChange={value => onChange({ lightness: value })}
 				/>
 			</Options>
-			<Actions>
+			{/* <Actions>
 				<button onClick={onDelete}>×</button>
 				<button onClick={onMoveUp}>↑</button>
 				<button onClick={onMoveDown}>↓</button>
-			</Actions>
+			</Actions> */}
 			<ColorRow>
 				{colors.map((color, i) => (
 					<ColorTile
