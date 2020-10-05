@@ -50,8 +50,10 @@ function ColorTile({ color, base, showImaginary, showContrast, children }) {
 					{contrastColors.map(c => (
 						<Tag color={color.hex()} background={c.hex()}>
 							{Math.round(chromajs.contrast(c, color) * 10) / 10}:1
+							<br />
 						</Tag>
 					))}
+					{color.hex()}
 				</ContrastContainer>
 			)}
 		</Tile>

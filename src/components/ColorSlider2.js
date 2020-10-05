@@ -91,7 +91,7 @@ const BaseHandle = styled.div`
 	&:after {
 		content: '';
 		display: block;
-		border: 2px solid #ffffff;
+		border: 2px solid black;
 		box-sizing: border-box;
 		box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.37);
 		border-radius: 5px;

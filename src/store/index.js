@@ -1,30 +1,30 @@
-import { createStore, combineReducers } from "redux";
-import reducers from "../reducers/reducers.js";
-import { loadState, saveState } from "../localStorage";
+import { createStore, combineReducers } from 'redux'
+import reducers from '../reducers/reducers.js'
+import { loadState, saveState } from '../localStorage'
 
-const keepState = false;
-let _store;
+const keepState = true
+let _store
 if (keepState) {
-  const persistedState = loadState();
+	const persistedState = loadState()
 
-  _store = createStore(
-    combineReducers({
-      state: reducers
-    }),
-    persistedState
-  );
+	_store = createStore(
+		combineReducers({
+			state: reducers,
+		}),
+		persistedState
+	)
 
-  _store.subscribe(() => {
-    console.log(store.getState());
-    //const currentState = store.getState();
-    saveState(store.getState());
-  });
+	_store.subscribe(() => {
+		console.log(store.getState())
+		//const currentState = store.getState();
+		saveState(store.getState())
+	})
 } else {
-  _store = createStore(
-    combineReducers({
-      state: reducers
-    })
-  );
+	_store = createStore(
+		combineReducers({
+			state: reducers,
+		})
+	)
 }
 
-export const store = _store;
+export const store = _store

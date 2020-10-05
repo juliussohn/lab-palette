@@ -41,10 +41,10 @@ function App({
 	setShowContrast,
 }) {
 	useEffect(() => {
-		addSwatch()
-		addSwatch()
-		addSwatch()
-		addSwatch()
+		//addSwatch()
+		//	addSwatch()
+		//addSwatch()
+		//addSwatch()
 	}, [])
 
 	return (

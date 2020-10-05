@@ -109,11 +109,11 @@ function Swatch({
 					onChange={value => onChange({ lightness: value })}
 				/>
 			</Options>
-			{/* <Actions>
+			<Actions>
 				<button onClick={onDelete}>×</button>
 				<button onClick={onMoveUp}>↑</button>
 				<button onClick={onMoveDown}>↓</button>
-			</Actions> */}
+			</Actions>
 			<ColorRow>
 				{colors.map((color, i) => (
 					<ColorTile
