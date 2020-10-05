@@ -257,7 +257,6 @@ function ColorSlider({
 						onChange={v => onChange({ ...value, scale: v })}
 						value={value.scale}></ScaleSelect>
 					<NumberInput
-						step="10"
 						type="number"
 						id="hue"
 						name="hue"
@@ -266,7 +265,6 @@ function ColorSlider({
 						disabled={useGlobal}
 					/>
 					<NumberInput
-						step="10"
 						type="number"
 						id="hue"
 						name="hue"
@@ -275,7 +273,6 @@ function ColorSlider({
 						disabled={useGlobal}
 					/>
 					<NumberInput
-						step="10"
 						type="number"
 						id="hue"
 						name="hue"
