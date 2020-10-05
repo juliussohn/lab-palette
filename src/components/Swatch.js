@@ -85,7 +85,7 @@ function Swatch({
 					useGlobal={chroma.global}
 					label="Chroma"
 					background={{
-						hue: [hue.base, hue.base],
+						hue: [parseInt(hue.base), parseInt(hue.base)],
 						chroma: [0, 150],
 						lightness: [70, 70],
 					}}
@@ -99,7 +99,7 @@ function Swatch({
 					toggleGlobal={toggleGlobalLightness}
 					label="Lightness"
 					background={{
-						hue: [hue.base, hue.base],
+						hue: [parseInt(hue.base), parseInt(hue.base)],
 						chroma: [60, 60],
 						lightness: [0, 70],
 					}}

@@ -43,11 +43,10 @@ const defaultState = {
 }
 
 function reducers(state = defaultState, action) {
-	console.log(action.chroma)
 	switch (action.type) {
 		case 'ADD_SWATCH':
 			let hue = state.swatches.length
-				? state.swatches[state.swatches.length - 1].hue.base + 40
+				? parseInt(state.swatches[state.swatches.length - 1].hue.base) + 40
 				: Math.round(Math.random() * 360)
 			hue = hue > 720 ? hue - 720 : hue
 			return update(state, {
