@@ -28,11 +28,7 @@ const Tile = styled.div`
 	padding: 5px;
 	color: rgba(0, 0, 0, 0.3);
 	background-color: ${props => props.background};
-	${props =>
-		props.base &&
-		css`
-			margin: 0 4px;
-		`}
+
 	${props => props.clipped && props.showImaginary && imaginaryOverlay}
 `
 

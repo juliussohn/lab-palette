@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Slider, { Range } from 'rc-slider'
 import 'rc-slider/assets/index.css'
@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import Swatch from './components/Swatch'
 import Toggle from './components/Toggle'
 import { Options, Input } from './components/containers.js'
-
+import { copyTextToClipboard } from './helpers.js'
 import './styles.scss'
 import {
 	setSteps,
@@ -20,13 +20,16 @@ import {
 	deleteSwatch,
 	moveSwatch,
 	setShowContrast,
+	importStateTree,
 } from './actions/actions.js'
 import { bindActionCreators } from 'redux'
 
 const Settings = styled.div`
 	display: flex;
 `
+
 function App({
+	state,
 	state: { options, swatches },
 	setSteps,
 	updateSwatch,
@@ -39,6 +42,7 @@ function App({
 	deleteSwatch,
 	moveSwatch,
 	setShowContrast,
+	importStateTree,
 }) {
 	useEffect(() => {
 		//addSwatch()
@@ -46,7 +50,17 @@ function App({
 		//addSwatch()
 		//addSwatch()
 	}, [])
+	const [importState, setImportState] = useState('')
 
+	const loadImportState = json => {
+		try {
+			const tree = JSON.parse(json)
+			console.log(tree)
+			importStateTree(tree)
+		} catch (e) {
+			console.log('nope')
+		}
+	}
 	return (
 		<div className="App">
 			<Settings>
@@ -106,6 +120,28 @@ function App({
 						onChange={setShowContrast}
 					/>
 				</Options>
+				<Options>
+					<button
+						onClick={() => {
+							copyTextToClipboard(JSON.stringify(state))
+						}}>
+						Export
+					</button>
+					<br />
+					<input
+						value={importState}
+						onChange={e => {
+							setImportState(e.target.value)
+						}}
+						type="text"
+					/>
+					<button
+						onClick={() => {
+							loadImportState(importState)
+						}}>
+						Import
+					</button>
+				</Options>
 			</Settings>
 
 			<hr />
@@ -150,6 +186,7 @@ const mapDispatchToProps = dispatch => {
 			deleteSwatch,
 			moveSwatch,
 			setShowContrast,
+			importStateTree,
 		},
 		dispatch
 	)

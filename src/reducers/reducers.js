@@ -174,6 +174,9 @@ function reducers(state = defaultState, action) {
 						}),
 				},
 			})
+		case 'IMPORT_STATE_TREE':
+			return { ...state, ...action.stateTree }
+
 		case 'SET_MIRROR_VALUES':
 			if (action.mirrorValues == false) {
 				return update(state, {

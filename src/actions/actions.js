@@ -48,3 +48,7 @@ export const moveSwatch = (currentIndex, newIndex) => ({
 	currentIndex,
 	newIndex,
 })
+export const importStateTree = stateTree => ({
+	type: 'IMPORT_STATE_TREE',
+	stateTree,
+})
