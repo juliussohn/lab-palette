@@ -127,6 +127,7 @@ function App({
 						}}>
 						Export
 					</button>
+
 					<br />
 					<input
 						value={importState}
@@ -154,6 +155,7 @@ function App({
 					onMoveDown={() =>
 						moveSwatch(i, i < swatches.length - 1 ? i + 1 : swatches.length - 1)
 					}
+					name={swatch.name}
 					hue={swatch.hue}
 					chroma={swatch.chroma}
 					lightness={swatch.lightness}

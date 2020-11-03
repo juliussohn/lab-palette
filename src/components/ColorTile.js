@@ -49,9 +49,15 @@ function ColorTile({ color, base, showImaginary, showContrast, children }) {
 							<br />
 						</Tag>
 					))}
-					{color.hex()}
+					<br />
 				</ContrastContainer>
 			)}
+			<br />
+			{color.hex()} <br />
+			{Math.round(color.hsl()[0])} <br />
+			{color.lch().map(v => (
+				<div>{Math.round(v * 100) / 100}</div>
+			))}
 		</Tile>
 	)
 }

@@ -9,7 +9,7 @@ export function clamp(num, min, max) {
 }
 
 export function getSwatchColors(hue, chroma, lightness, steps) {
-	const domain = [-1 * steps, 0, steps]
+	const domain = [0, steps / 2, steps]
 
 	const lightnessBase = parseFloat(lightness.base)
 	const lightnessDark = clamp(
@@ -63,7 +63,7 @@ export function getSwatchColors(hue, chroma, lightness, steps) {
 		.range([chromaDark, chromaBase, chromaLight])
 
 	let colors = []
-	for (let i = -1 * steps; i <= steps; i++) {
+	for (let i = 0; i < steps; i++) {
 		colors.push(
 			chromajs.lch(
 				Math.round(lightnessScale(i)),

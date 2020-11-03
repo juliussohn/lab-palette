@@ -7,6 +7,14 @@ import styled, { css } from 'styled-components'
 import { connect } from 'react-redux'
 import { colors } from '../tokens.js'
 
+const Input = styled.input`
+	display: flex;
+	padding: 4px 0;
+	border: none;
+	outline: none;
+	text-align: left;
+	font-size: 14px;
+`
 const Container = styled.div`
 	display: flex;
 	width: 100%;
@@ -44,6 +52,7 @@ function Swatch({
 	lightness,
 	hue,
 	chroma,
+	name,
 	onChange,
 	onDelete,
 	onMoveUp,
@@ -68,6 +77,16 @@ function Swatch({
 	return (
 		<Container key={'container'}>
 			<Options key={'options'}>
+				<div>
+					<Input
+						type="text"
+						id="name"
+						name="name"
+						value={name}
+						onChange={event => onChange({ name: event.target.value })}
+						placeholder="Enter a name..."
+					/>
+				</div>
 				<ColorSlider
 					label="Hue"
 					background={{
