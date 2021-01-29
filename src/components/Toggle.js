@@ -1,17 +1,22 @@
-import React from "react";
+import React from 'react'
 
-function Toggle({ label, value, onChange, key }) {
+function Toggle({ label, value, onChange, key, level = 0, ...props }) {
 	return (
-		<div>
+		<div
+			style={{
+				paddingLeft: `${level * 15}px`,
+				opacity: props.disabled ? 0.5 : 1,
+			}}>
 			<input
+				{...props}
 				type="checkbox"
 				id={label}
 				checked={value}
-				onChange={(event) => onChange(event.target.checked)}
+				onChange={event => onChange(event.target.checked)}
 			/>
 			<label for={label}>{label}</label>
 		</div>
-	);
+	)
 }
 
-export default Toggle;
+export default Toggle

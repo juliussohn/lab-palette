@@ -28,25 +28,49 @@ const Tile = styled.div`
 	padding: 5px;
 	color: rgba(0, 0, 0, 0.3);
 	background-color: ${props => props.background};
-
-	${props => props.clipped && props.showImaginary && imaginaryOverlay}
+	overflow: hidden;
+	flex-wrap: wrap;
+	${props => props.clipped && props.showImaginary && imaginaryOverlay};
 `
+const Mono = styled.div`
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	font-family: monospace;
+`
+
+function ColorInfo({ label, children, show, color = 'white' }) {
+	if (!show) return null
+	return (
+		<Mono style={{ color }}>
+			{label} : {children}
+		</Mono>
+	)
+}
 
 function ColorTile({
 	color,
 	base,
 	showImaginary,
-	showContrast,
+	colorInfo,
 	displayP,
 	children,
 }) {
 	const contrastColors = [chromajs('black'), chromajs('white')]
+
 	let colorStyle = color.hex()
 	if (displayP) {
 		colorStyle = `color(display-p3 ${color.rgb()[0] / 255} ${
 			color.rgb()[1] / 255
 		} ${color.rgb()[2] / 255})`
 	}
+
+	const contrast = {
+		black: chromajs.contrast(chromajs('black'), color),
+		white: chromajs.contrast(chromajs('white'), color),
+	}
+
+	const infoColor = contrast.black > contrast.white ? 'black' : 'white'
 
 	return (
 		<Tile
@@ -55,7 +79,7 @@ function ColorTile({
 			clipped={color.clipped()}
 			background={colorStyle}>
 			{children}
-			{showContrast && (
+			{/*colorInfo.contrast && (
 				<ContrastContainer>
 					{contrastColors.map(c => (
 						<Tag color={color.hex()} background={c.hex()}>
@@ -65,15 +89,50 @@ function ColorTile({
 					))}
 					<br />
 				</ContrastContainer>
-			)}
-			<br />
-			{color.hex()} <br />
-			H: {Math.round(color.hsl()[0])} <br />
-			S: {Math.round(color.hsl()[1] * 100) / 100} <br />
-			L: {Math.round(color.hsl()[2] * 100) / 100} <br />
-			{color.lch().map(v => (
-				<div>{Math.round(v * 100) / 100}</div>
-			))}
+					)*/}
+
+			<ColorInfo
+				color="black"
+				show={colorInfo.contrast && colorInfo.show}
+				label="Contrast black">
+				{Math.round(contrast.black * 10) / 10}:1
+			</ColorInfo>
+			<ColorInfo
+				color="white"
+				show={colorInfo.contrast && colorInfo.show}
+				label="Contrast white">
+				{Math.round(contrast.white * 10) / 10}:1
+			</ColorInfo>
+			<ColorInfo
+				color={infoColor}
+				show={colorInfo.hex && colorInfo.show}
+				label="HEX">
+				{color.hex()}
+			</ColorInfo>
+			<ColorInfo
+				color={infoColor}
+				show={colorInfo.rgb && colorInfo.show}
+				label="RGB">
+				{color.rgb().join(',')}{' '}
+			</ColorInfo>
+			<ColorInfo
+				color={infoColor}
+				show={colorInfo.hsl && colorInfo.show}
+				label="HSL">
+				{color
+					.hsl()
+					.map(v => Math.round(v))
+					.join(',')}
+			</ColorInfo>
+			<ColorInfo
+				color={infoColor}
+				show={colorInfo.lch && colorInfo.show}
+				label="LCH">
+				{color
+					.lch()
+					.map(v => Math.round(v))
+					.join(',')}{' '}
+			</ColorInfo>
 		</Tile>
 	)
 }

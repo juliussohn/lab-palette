@@ -35,10 +35,19 @@ const defaultState = {
 		lightness: defaultlightness,
 		globalChroma: true,
 		globalLightness: true,
-		showImaginary: false,
 		mirrorValues: true,
-		showContrast: true,
+	},
+	view: {
+		colorInfo: {
+			show: false,
+			contrast: true,
+			hex: true,
+			rgb: true,
+			lch: true,
+			hsl: true,
+		},
 		displayP3: false,
+		showImaginary: false,
 	},
 	swatches: [],
 }
@@ -133,20 +142,20 @@ function reducers(state = defaultState, action) {
 
 		case 'SET_IMAGINARY':
 			return update(state, {
-				options: {
+				view: {
 					showImaginary: { $set: action.imaginary },
 				},
 			})
 
-		case 'SET_SHOW_CONTRAST':
+		case 'SET_COLOR_INFO':
 			return update(state, {
-				options: {
-					showContrast: { $set: action.showContrast },
+				view: {
+					colorInfo: { $merge: action.colorInfo },
 				},
 			})
 		case 'SET_DISPLAY_P3':
 			return update(state, {
-				options: {
+				view: {
 					displayP3: { $set: action.displayP3 },
 				},
 			})
@@ -182,7 +191,9 @@ function reducers(state = defaultState, action) {
 				},
 			})
 		case 'IMPORT_STATE_TREE':
-			return { ...state, ...action.stateTree }
+			return update(state, {
+				$merge: action.stateTree,
+			})
 
 		case 'SET_MIRROR_VALUES':
 			if (action.mirrorValues == false) {

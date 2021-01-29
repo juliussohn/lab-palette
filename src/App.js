@@ -20,7 +20,7 @@ import {
 	deleteSwatch,
 	moveSwatch,
 	setDisplayP3,
-	setShowContrast,
+	setColorInfo,
 	importStateTree,
 } from './actions/actions.js'
 import { bindActionCreators } from 'redux'
@@ -31,7 +31,7 @@ const Settings = styled.div`
 
 function App({
 	state,
-	state: { options, swatches },
+	state: { options, swatches, view },
 	setSteps,
 	updateSwatch,
 	addSwatch,
@@ -42,7 +42,7 @@ function App({
 	setMirrorValues,
 	deleteSwatch,
 	moveSwatch,
-	setShowContrast,
+	setColorInfo,
 	importStateTree,
 }) {
 	useEffect(() => {
@@ -59,7 +59,7 @@ function App({
 			console.log(tree)
 			importStateTree(tree)
 		} catch (e) {
-			console.log('nope')
+			console.log(e)
 		}
 	}
 	return (
@@ -96,6 +96,62 @@ function App({
 					)}
 				</Options>
 				<Options>
+					<h4>Color info</h4>
+					<Toggle
+						label={'Show Info'}
+						value={view.colorInfo.show}
+						onChange={v => {
+							setColorInfo({ show: v })
+						}}
+					/>
+					<Toggle
+						disabled={!view.colorInfo.show}
+						level={1}
+						label={'Contrast Ratio'}
+						value={view.colorInfo.contrast}
+						onChange={v => {
+							setColorInfo({ contrast: v })
+						}}
+					/>
+					<Toggle
+						disabled={!view.colorInfo.show}
+						level={1}
+						label={'HEX'}
+						value={view.colorInfo.hex}
+						onChange={v => {
+							setColorInfo({ hex: v })
+						}}
+					/>
+					<Toggle
+						disabled={!view.colorInfo.show}
+						level={1}
+						label={'RGB'}
+						value={view.colorInfo.rgb}
+						onChange={v => {
+							setColorInfo({ rgb: v })
+						}}
+					/>
+					<Toggle
+						disabled={!view.colorInfo.show}
+						level={1}
+						label={'HSL'}
+						value={view.colorInfo.hsl}
+						onChange={v => {
+							setColorInfo({ hsl: v })
+						}}
+					/>
+					<Toggle
+						disabled={!view.colorInfo.show}
+						level={1}
+						label={'LCH'}
+						value={view.colorInfo.lch}
+						onChange={v => {
+							setColorInfo({ lch: v })
+						}}
+					/>
+				</Options>
+
+				<Options>
 					<label>Steps</label>
 					<Input
 						type="number"
@@ -115,11 +171,7 @@ function App({
 						value={options.showImaginary}
 						onChange={setImaginary}
 					/>
-					<Toggle
-						label={'Show Contrast'}
-						value={options.showContrast}
-						onChange={setShowContrast}
-					/>
+
 					<Toggle
 						label={'Display P3 boost'}
 						value={options.displayP3}
@@ -129,7 +181,9 @@ function App({
 				<Options>
 					<button
 						onClick={() => {
-							copyTextToClipboard(JSON.stringify(state))
+							const { swatches, options } = state
+
+							copyTextToClipboard(JSON.stringify({ swatches, options }))
 						}}>
 						Export
 					</button>
@@ -193,7 +247,7 @@ const mapDispatchToProps = dispatch => {
 
 			deleteSwatch,
 			moveSwatch,
-			setShowContrast,
+			setColorInfo,
 			importStateTree,
 		},
 		dispatch

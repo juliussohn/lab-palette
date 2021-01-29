@@ -1,0 +1,240 @@
+{
+	"swatches": [
+		{
+			"hue": { "dark": 0, "scale": "linear", "base": "187", "light": "-18" },
+			"name": "teal",
+			"chroma": {
+				"scale": "linear",
+				"dark": "-80",
+				"global": false,
+				"base": "118",
+				"light": -121.66847826086956
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"global": false,
+				"light": "57",
+				"dark": "-53"
+			}
+		},
+		{
+			"hue": { "dark": 0, "light": 0, "scale": "linear", "base": "227" },
+			"name": "cyan",
+			"chroma": {
+				"scale": "linear",
+				"base": "94",
+				"dark": "-80",
+				"global": false,
+				"light": "-104"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"dark": "-52",
+				"global": false,
+				"light": "53"
+			}
+		},
+		{
+			"hue": { "dark": "0", "light": "-9", "scale": "linear", "base": "287" },
+			"name": "blue",
+			"chroma": {
+				"global": true,
+				"scale": "linear",
+				"base": "94",
+				"light": "-91",
+				"dark": "-80"
+			},
+			"lightness": {
+				"global": true,
+				"scale": "pow1_1",
+				"base": "58",
+				"light": "49",
+				"dark": "-52"
+			}
+		},
+		{
+			"hue": { "dark": 0, "scale": "linear", "base": "306", "light": "-8" },
+			"name": "violet",
+			"chroma": {
+				"global": true,
+				"scale": "linear",
+				"base": "94",
+				"light": "-91",
+				"dark": "-80"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"global": false,
+				"dark": "-52",
+				"light": "48"
+			}
+		},
+		{
+			"hue": { "dark": 0, "scale": "linear", "base": "322", "light": "-4" },
+			"name": "purple",
+			"chroma": {
+				"scale": "linear",
+				"base": "94",
+				"global": false,
+				"light": "-84",
+				"dark": "-80"
+			},
+			"lightness": {
+				"global": true,
+				"scale": "pow1_1",
+				"base": "58",
+				"light": "49",
+				"dark": "-52"
+			}
+		},
+		{
+			"hue": { "dark": 0, "light": 0, "scale": "linear", "base": "343" },
+			"name": "pink",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"base": "89",
+				"light": "-82",
+				"dark": "-72"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"global": false,
+				"light": "50",
+				"dark": "-52"
+			}
+		},
+		{
+			"hue": { "dark": 0, "light": 0, "scale": "linear", "base": "21" },
+			"name": "red",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"base": "89",
+				"light": "-80",
+				"dark": "-74"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"dark": "-52",
+				"global": false,
+				"light": "51"
+			}
+		},
+		{
+			"hue": { "light": 0, "scale": "linear", "base": "48", "dark": "-15" },
+			"name": "orange",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"base": "89",
+				"light": "-82",
+				"dark": "-76"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"dark": "-52",
+				"global": false,
+				"light": "51"
+			}
+		},
+		{
+			"hue": { "light": 0, "scale": "linear", "base": "79", "dark": "0" },
+			"name": "yellow",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"dark": "-78",
+				"base": "99",
+				"light": "-89"
+			},
+			"lightness": {
+				"scale": "pow1_1",
+				"base": "58",
+				"dark": "-52",
+				"global": false,
+				"light": "51"
+			}
+		},
+		{
+			"hue": { "dark": 0, "light": 0, "scale": "linear", "base": "110" },
+			"name": "lime",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"base": "99",
+				"dark": "-78",
+				"light": "-96"
+			},
+			"lightness": {
+				"global": true,
+				"scale": "pow1_1",
+				"base": "58",
+				"light": "49",
+				"dark": "-52"
+			}
+		},
+		{
+			"hue": { "dark": 0, "scale": "linear", "light": "-3", "base": "147" },
+			"name": "green",
+			"chroma": {
+				"scale": "linear",
+				"global": false,
+				"base": "99",
+				"dark": "-78",
+				"light": "-105"
+			},
+			"lightness": {
+				"global": true,
+				"scale": "pow1_1",
+				"base": "58",
+				"light": "49",
+				"dark": "-52"
+			}
+		},
+		{
+			"hue": { "dark": 0, "light": 0, "scale": "linear", "base": "276" },
+			"chroma": {
+				"global": false,
+				"dark": "-0",
+				"scale": "pow1_4",
+				"base": "4",
+				"light": "-26"
+			},
+			"name": "grey",
+			"lightness": {
+				"global": true,
+				"scale": "pow1_1",
+				"base": "58",
+				"light": "49",
+				"dark": "-52"
+			}
+		}
+	],
+	"options": {
+		"chroma": {
+			"global": true,
+			"scale": "linear",
+			"base": "94",
+			"light": "-91",
+			"dark": "-80"
+		},
+		"lightness": {
+			"global": true,
+			"scale": "pow1_1",
+			"base": "58",
+			"light": "49",
+			"dark": "-52"
+		},
+		"globalChroma": true,
+		"globalLightness": true,
+		"mirrorValues": false,
+		"steps": "10"
+	}
+}

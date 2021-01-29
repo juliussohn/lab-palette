@@ -28,9 +28,9 @@ export const setImaginary = imaginary => ({
 	imaginary,
 })
 
-export const setShowContrast = showContrast => ({
-	type: 'SET_SHOW_CONTRAST',
-	showContrast,
+export const setColorInfo = colorInfo => ({
+	type: 'SET_COLOR_INFO',
+	colorInfo,
 })
 
 export const setMirrorValues = mirrorValues => ({
