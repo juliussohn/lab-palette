@@ -32,14 +32,28 @@ const Tile = styled.div`
 	${props => props.clipped && props.showImaginary && imaginaryOverlay}
 `
 
-function ColorTile({ color, base, showImaginary, showContrast, children }) {
+function ColorTile({
+	color,
+	base,
+	showImaginary,
+	showContrast,
+	displayP,
+	children,
+}) {
 	const contrastColors = [chromajs('black'), chromajs('white')]
+	let colorStyle = color.hex()
+	if (displayP) {
+		colorStyle = `color(display-p3 ${color.rgb()[0] / 255} ${
+			color.rgb()[1] / 255
+		} ${color.rgb()[2] / 255})`
+	}
+
 	return (
 		<Tile
 			base={base}
 			showImaginary={showImaginary}
 			clipped={color.clipped()}
-			background={color.hex()}>
+			background={colorStyle}>
 			{children}
 			{showContrast && (
 				<ContrastContainer>
@@ -54,7 +68,9 @@ function ColorTile({ color, base, showImaginary, showContrast, children }) {
 			)}
 			<br />
 			{color.hex()} <br />
-			{Math.round(color.hsl()[0])} <br />
+			H: {Math.round(color.hsl()[0])} <br />
+			S: {Math.round(color.hsl()[1] * 100) / 100} <br />
+			L: {Math.round(color.hsl()[2] * 100) / 100} <br />
 			{color.lch().map(v => (
 				<div>{Math.round(v * 100) / 100}</div>
 			))}

@@ -19,6 +19,7 @@ import {
 	setMirrorValues,
 	deleteSwatch,
 	moveSwatch,
+	setDisplayP3,
 	setShowContrast,
 	importStateTree,
 } from './actions/actions.js'
@@ -37,7 +38,7 @@ function App({
 	setLightness,
 	setImaginary,
 	setChroma,
-
+	setDisplayP3,
 	setMirrorValues,
 	deleteSwatch,
 	moveSwatch,
@@ -119,6 +120,11 @@ function App({
 						value={options.showContrast}
 						onChange={setShowContrast}
 					/>
+					<Toggle
+						label={'Display P3 boost'}
+						value={options.displayP3}
+						onChange={setDisplayP3}
+					/>
 				</Options>
 				<Options>
 					<button
@@ -182,7 +188,7 @@ const mapDispatchToProps = dispatch => {
 			setLightness,
 			setImaginary,
 			setChroma,
-
+			setDisplayP3,
 			setMirrorValues,
 
 			deleteSwatch,

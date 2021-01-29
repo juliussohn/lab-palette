@@ -140,6 +140,7 @@ function Swatch({
 						base={i === parseInt(options.steps)}
 						color={color}
 						showImaginary={options.showImaginary}
+						displayP={options.displayP3}
 						showContrast={options.showContrast}></ColorTile>
 				))}
 			</ColorRow>

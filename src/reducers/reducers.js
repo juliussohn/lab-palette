@@ -38,6 +38,7 @@ const defaultState = {
 		showImaginary: false,
 		mirrorValues: true,
 		showContrast: true,
+		displayP3: false,
 	},
 	swatches: [],
 }
@@ -141,6 +142,12 @@ function reducers(state = defaultState, action) {
 			return update(state, {
 				options: {
 					showContrast: { $set: action.showContrast },
+				},
+			})
+		case 'SET_DISPLAY_P3':
+			return update(state, {
+				options: {
+					displayP3: { $set: action.displayP3 },
 				},
 			})
 

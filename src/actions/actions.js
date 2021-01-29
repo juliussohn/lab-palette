@@ -38,6 +38,11 @@ export const setMirrorValues = mirrorValues => ({
 	mirrorValues,
 })
 
+export const setDisplayP3 = displayP3 => ({
+	type: 'SET_DISPLAY_P3',
+	displayP3,
+})
+
 export const deleteSwatch = index => ({
 	type: 'DELETE_SWATCH',
 	index,
